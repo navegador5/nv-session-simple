@@ -70,5 +70,9 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "sdp": "^3.0.3",
+    "sdp-jingle-json": "^3.1.0"
+  }
 }
