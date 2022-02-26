@@ -93,7 +93,6 @@ const {psj} = require("nv-facutil-promise");
 
 
 WebSocketConnection.prototype.ping = function(data) {
-    this._debug('ping');
     var frame = new WebSocketFrame(this.maskBytes, this.frameHeader, this.config);
     frame.opcode = 0x09; // WebSocketOpcode.PING
     frame.fin = true;
@@ -102,7 +101,6 @@ WebSocketConnection.prototype.ping = function(data) {
             data = Buffer.from(data.toString(), 'utf8');
         }
         if (data.length > 125) {
-            this._debug('WebSocket: Data for ping is longer than 125 bytes.  Truncating.');
             data = data.slice(0,124);
         }
         frame.binaryPayload = data;
@@ -115,11 +113,9 @@ WebSocketConnection.prototype.ping = function(data) {
 
 
 WebSocketConnection.prototype.pong = function(binaryPayload) {
-    this._debug('pong');
     var frame = new WebSocketFrame(this.maskBytes, this.frameHeader, this.config);
     frame.opcode = 0x0A; // WebSocketOpcode.PONG
     if (Buffer.isBuffer(binaryPayload) && binaryPayload.length > 125) {
-        this._debug('WebSocket: Data for pong is longer than 125 bytes.  Truncating.');
         binaryPayload = binaryPayload.slice(0,124);
     }
     frame.binaryPayload = binaryPayload;
