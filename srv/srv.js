@@ -355,7 +355,7 @@ class Server {
                 ////
                 conn.on('message', function(message) {
                       let sess = conn.sess_;
-                      if(self.cfg_.keepalive=true) {
+                      if(self.cfg_.keepalive===true) {
                           conn.ka_.renew();
                       } else {}
                       if (message.type === 'utf8') {

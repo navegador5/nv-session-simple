@@ -11,7 +11,7 @@ const DFLT_CFG = ()=>({
         rejectUnauthorized: false
     },
     ////
-    keepalive:true,
+    keepalive:false,
     keepaliveInterval:20000,
     ////
     autoReconnect:true,

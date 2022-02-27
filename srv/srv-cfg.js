@@ -4,7 +4,7 @@ const DFLT_CFG = ()=>({
         maxReceivedMessageSize: 0x100000,
         fragmentOutgoingMessages: true,
         fragmentationThreshold: 0x4000,
-        keepalive: true,
+        keepalive: false,
         keepaliveInterval: 20000,
         dropConnectionOnKeepaliveTimeout: true,
         keepaliveGracePeriod: 10000,

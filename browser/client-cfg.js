@@ -2,7 +2,7 @@ const DFLT_CFG = ()=>({
     autoReconnect:true,
     autoReconnectInterval:60000,
     ////
-    keepalive:true,
+    keepalive:false,
     keepaliveInterval:20000,
     ////
 })
