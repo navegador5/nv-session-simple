@@ -1376,6 +1376,9 @@ CLI
 CPU AND MEM
 ============
 
+
+### in forwarding mode (which will broadcast any message to all clients)  AND with JSON-KEEPALIVE enabled(which is needed for some old phone AND browser,whose connection is NOT stable)
+
             //on a very poor CPU , 12+years old machine 
 
             root@dev:/opt/JS/nvsess/sess-isrv# cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
@@ -1396,7 +1399,7 @@ CPU AND MEM
 
              //for 5000-6000  sessions 
              //    10 seconds keepalive interval
-             //    and small-data (<1k) forwarding at 20 seconds frequency 
+             //    and small-data (<1k) forwarding at 20 seconds frequency(simutaneously) 
 
              2470394 root      20   0  844812 267576  33220 S  40.7   3.4  31:32.05 node
              2469492 www-data  20   0  184656 136512   6136 S   9.9   1.7   9:07.61 nginx
@@ -1404,7 +1407,7 @@ CPU AND MEM
 
              //for 10000 sessions, make CPU at 100%, AND observe for 10 hours:
              //    10 seconds keepalive interval
-             //    and small-data (<1k) forwarding at 10 seconds frequency
+             //    and small-data (<1k) forwarding at 10 seconds frequency(simutaneously)
 
              root@dev:/opt/JS/nvsess/sess-isrv# ./count-detail.sh
              from-chrome-and-edge                  //each 255   
@@ -1420,6 +1423,36 @@ CPU AND MEM
                     79961 root      20   0 1314736 742920  34172 R 102.5   9.3   1047:58 node
                     780 www-data  20   0  464052 415660   6644 R  32.3   5.2 639:54.96 nginx
                     781 www-data  20   0  246564 199184   6644 R  10.6   2.5 320:57.50 nginx
+
+
+
+### in forwarding mode (which will broadcast any message to all clients)  AND without JSON-KEEPALIVE enabled  AND only enable autoReconnect 
+
+           // on 2-cpus  1gHZ  old-pc
+
+           // 20% CPU  : small-data (<1k) forwarding/flooding at random 5~20 seconds frequency  on clients
+
+           PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+           196705 root      20   0  784448 176028  34272 R  20.5   2.2   1:23.04 node
+           780 www-data  20   0  564768 516952   6644 R   4.6   6.5 703:26.10 nginx
+
+
+            // 10000  sessions
+
+
+            root@dev:/opt/JS/devtools# netstat -n | egrep 18890 | egrep ESTAB | wc -l
+            10255
+            root@dev:/opt/JS/devtools#  netstat -i | egrep enp6s0
+            enp6s0    1500 1341377164      0      0 0      1338198469      0      0      0 BMRU
+            root@dev:/opt/JS/devtools#
+
+
+            //so if the connect is stable in 24 hours  without close-event , NO need JSON-KEEPALIVE-MESSAGE
+            //  after test recently version of edge/chrome AND serveral android equipment/simulators , they do NOT need JSON-layer message
+            //  now change the default setting to:
+            //       keepalie:false
+            //       autoReconnect: true  //on client
+
 
 
 
